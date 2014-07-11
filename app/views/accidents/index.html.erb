@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html class="full" lang="en">
+<!-- The full page image background will only work if the html has the custom class set to it! Don't delete it! -->
+
+<head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- TODO remove manual maps api inclusion -->
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  
+    <title>Full Page Image Background Template for Bootstrap 3</title>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-fixed-bottom navbar-inverse" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.php">CycleSafe</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav">
+          <li class="submit"><a href="#about"><span class="glyphicon glyphicon-plus"></span> Submit an Incident</a>
+          </li>
+          <li class="stats"><a href="#stats"><span class="glyphicon glyphicon-stats"></span> Stats</a>
+          </li>
+        </ul>
+      </div>
+      <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+  </nav>
+
+  <div id="map-canvas">
+  </div>
+  <div class="submitDiv">
+    <h2>Submit an Incident</h2>
+    <span class="glyphicon glyphicon-remove"></span>
+    <form role="form" class="incidentForm">
+      <div class="form-group time-form-group">
+        <label for="exampleInputEmail1">Time</label>
+        <div class="input-group">
+          <div class="input-group-addon"><i class="fa fa-clock-o"></i></div>
+          <input type="time" class="form-control" id="exampleInputEmail1">
+        </div>
+      </div>
+      <div class="form-group date-form-group">
+        <label for="exampleInputEmail1">Date</label>
+        <div class="input-group">
+          <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+          <input type="date" class="form-control date-form-control" id="exampleInputEmail1">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputEmail1">Severity</label><br>
+        <button type="button" class="btn btn-minor btn-severity"><i class="fa fa-exclamation"></i> Minor</button>
+        <button type="button" class="btn btn-hospital btn-severity"><i class="fa fa-warning"></i> Hospital</button>
+        <button type="button" class="btn btn-death btn-severity"><i class="fa fa-flash"></i> Death</button>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputEmail1">Involved</label><br>
+        <label class="checkbox-inline">
+          <input type="checkbox" id="inlineCheckbox1" value="option1"> Bus
+        </label>
+        <label class="checkbox-inline">
+          <input type="checkbox" id="inlineCheckbox2" value="option2"> Van
+        </label>
+        <label class="checkbox-inline">
+          <input type="checkbox" id="inlineCheckbox3" value="option3"> Lorry
+        </label>
+        <label class="checkbox-inline">
+          <input type="checkbox" id="inlineCheckbox4" value="option3"> Car
+        </label>
+        <label class="checkbox-inline">
+          <input type="checkbox" id="inlineCheckbox5" value="option3"> Taxi
+        </label>
+        <label class="checkbox-inline">
+          <input type="checkbox" id="inlineCheckbox6" value="option3"> Motorcycle
+        </label>
+        <label class="checkbox-inline">
+          <input type="checkbox" id="inlineCheckbox7" value="option3"> Bicycle
+        </label>
+        <label class="checkbox-inline">
+          <input type="checkbox" id="inlineCheckbox8" value="option3"> Pedestrian
+        </label>
+      </div>
+      <div class="form-group date-form-group">
+        <label for="exampleInputEmail1">Brief description</label>
+        <div class="input-group">
+          <div class="input-group-addon"><i class="fa fa-pencil"></i></div>
+          <input type="text" class="form-control" placeholder="Text input">
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+  </div>
+  <div class="statsDiv">
+    <h2>Statistics</h2>
+    <span class="glyphicon glyphicon-remove"></span>
+    <br>
+    <h5 id="incidents">Incidents in the Last</h5>
+    <div class="btn-group btn-group-xs">
+      <button type="button" class="btn btn-default" id="week">Week</button>
+      <button type="button" class="btn btn-default" id="month">Month</button>
+      <button type="button" class="btn btn-default" id="year">Year</button>
+    </div><br><br>
+    <canvas id="barcanvas" height="150" width="360"></canvas>
+    <hr>
+    <div class="vDonut">
+      <h5>Vehicles</h5>
+      <canvas id="donutcanvas" height="200"></canvas>
+      <div class="btn-group-vertical" id="vehicles">
+        <button type="button" class="btn btn-default" style="background-color: #3498db; color: white">Bus</button>
+        <button type="button" class="btn btn-default" style="background-color: #e74c3c; color: white">Motorcycle</button>
+        <button type="button" class="btn btn-default" style="background-color: #f1c40f; color: white">Car</button>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

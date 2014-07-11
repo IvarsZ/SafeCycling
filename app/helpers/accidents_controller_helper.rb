@@ -1,0 +1,2 @@
+module AccidentsControllerHelper
+end

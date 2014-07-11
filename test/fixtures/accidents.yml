@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  time: 2014-07-11 11:35:17
+  severity: MyString
+  vehicle: MyString
+  lat: 1.5
+  lng: 1.5
+
+two:
+  time: 2014-07-11 11:35:17
+  severity: MyString
+  vehicle: MyString
+  lat: 1.5
+  lng: 1.5
