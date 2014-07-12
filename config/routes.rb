@@ -3,6 +3,7 @@ SafeCycling::Application.routes.draw do
   root "accidents#index"
 
   post "accidents/create_accident"
+  get "accidents/all_accidents"
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
