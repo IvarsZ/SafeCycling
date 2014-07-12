@@ -3,16 +3,16 @@
 <!-- The full page image background will only work if the html has the custom class set to it! Don't delete it! -->
 
 <head>
-    
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
 
-    <!-- TODO remove manual maps api inclusion -->
-    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- TODO remove manual maps api inclusion -->
+  <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   
-    <title>Full Page Image Background Template for Bootstrap 3</title>
+  <title>Full Page Image Background Template for Bootstrap 3</title>
 </head>
 
 <body>
@@ -50,50 +50,50 @@
     <span class="glyphicon glyphicon-remove"></span>
     <form role="form" class="incidentForm">
       <div class="form-group time-form-group">
-        <label for="exampleInputEmail1">Time</label>
+        <label for="time">Time</label>
         <div class="input-group">
           <div class="input-group-addon"><i class="fa fa-clock-o"></i></div>
-          <input type="time" class="form-control" id="exampleInputEmail1">
+          <input type="time" class="form-control" id="time">
         </div>
       </div>
       <div class="form-group date-form-group">
-        <label for="exampleInputEmail1">Date</label>
+        <label for="date">Date</label>
         <div class="input-group">
           <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-          <input type="date" class="form-control date-form-control" id="exampleInputEmail1">
+          <input type="date" class="form-control date-form-control" id="date">
         </div>
       </div>
       <div class="form-group">
-        <label for="exampleInputEmail1">Severity</label><br>
-        <button type="button" class="btn btn-minor btn-severity"><i class="fa fa-exclamation"></i> Minor</button>
+        <label for="severity">Severity</label><br>
+        <button type="button" class="btn btn-minor btn-severity btn-active"><i class="fa fa-exclamation"></i> Minor</button>
         <button type="button" class="btn btn-hospital btn-severity"><i class="fa fa-warning"></i> Hospital</button>
         <button type="button" class="btn btn-death btn-severity"><i class="fa fa-flash"></i> Death</button>
       </div>
-      <div class="form-group">
+      <div class="form-group involved-div">
         <label for="exampleInputEmail1">Involved</label><br>
         <label class="checkbox-inline">
-          <input type="checkbox" id="inlineCheckbox1" value="option1"> Bus
+          <input type="checkbox" id="busCheck" value="bus"> Bus
         </label>
         <label class="checkbox-inline">
-          <input type="checkbox" id="inlineCheckbox2" value="option2"> Van
+          <input type="checkbox" id="vanCheck" value="van"> Van
         </label>
         <label class="checkbox-inline">
-          <input type="checkbox" id="inlineCheckbox3" value="option3"> Lorry
+          <input type="checkbox" id="lorryCheck" value="lorry"> Lorry
         </label>
         <label class="checkbox-inline">
-          <input type="checkbox" id="inlineCheckbox4" value="option3"> Car
+          <input type="checkbox" id="carCheck" value="car"> Car
         </label>
         <label class="checkbox-inline">
-          <input type="checkbox" id="inlineCheckbox5" value="option3"> Taxi
+          <input type="checkbox" id="taxiCheck" value="taxi"> Taxi
         </label>
         <label class="checkbox-inline">
-          <input type="checkbox" id="inlineCheckbox6" value="option3"> Motorcycle
+          <input type="checkbox" id="motorcycleCheck" value="motorcycle"> Motorcycle
         </label>
         <label class="checkbox-inline">
-          <input type="checkbox" id="inlineCheckbox7" value="option3"> Bicycle
+          <input type="checkbox" id="bicycleCheck" value="bicycle"> Bicycle
         </label>
         <label class="checkbox-inline">
-          <input type="checkbox" id="inlineCheckbox8" value="option3"> Pedestrian
+          <input type="checkbox" id="pedestrianCheck" value="pedestrian"> Pedestrian
         </label>
       </div>
       <div class="form-group date-form-group">
@@ -103,8 +103,17 @@
           <input type="text" class="form-control" placeholder="Text input">
         </div>
       </div>
-
-      <button type="submit" class="btn btn-default">Submit</button>
+      <div class="form-group pos-form-group">
+        <label for="exampleInputEmail1">Latitude</label>
+        <input type="text" class="form-control" placeholder="Lat" id="latInput">
+      </div>     
+      <div class="form-group pos-form-group">
+        <label for="exampleInputEmail1">Longitude</label>
+        <input type="text" class="form-control" placeholder="Long" id="longInput">
+      </div>
+      <br><br>
+      <br><br>
+      <button type="submit" class="btn btn-default incSubmit">Submit</button>
     </form>
   </div>
   <div class="statsDiv">

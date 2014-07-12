@@ -100,13 +100,21 @@ h5 {
 .incidentForm {
 	margin-left: 20px;
 	width: 90%;
-	margin-top: 40px;
+	margin-top: 20px;
 }
 
 .time-form-group {
 	margin-right: 20px;
 	width: 30%;
 }
+
+.pos-form-group {
+	margin-right: 20px;
+	width: 30%;
+	display: inline;
+	float: left;
+}
+
 
 form label {
 	color: #ecf0f1;
@@ -146,4 +154,21 @@ border-color: #2c3e50;
 
 .checkbox-inline {
 	font-weight: bold;
+}
+
+.btn-severity .active {
+	color: red;
+}
+
+.btn-active
+{
+    border: 1px solid white;
+}
+
+.btn:focus {   
+box-shadow: 0 0px 0px rgba(0, 0, 0, 0.075);
+}
+
+.btn:hover {
+	color: #ddd;
 }

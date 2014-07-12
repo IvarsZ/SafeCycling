@@ -133,6 +133,27 @@ $(document).ready(function(){
 
   });
 
+  $('.btn-minor').click(function() {
+
+    $(this).addClass('btn-active');
+    $('.btn-hospital').removeClass('btn-active');
+    $('.btn-death').removeClass('btn-active');
+  });
+
+  $('.btn-hospital').click(function() {
+
+    $(this).addClass('btn-active');
+    $('.btn-minor').removeClass('btn-active');
+    $('.btn-death').removeClass('btn-active');
+  });
+
+  $('.btn-death').click(function() {
+
+    $(this).addClass('btn-active');
+    $('.btn-hospital').removeClass('btn-active');
+    $('.btn-minor').removeClass('btn-active');
+  });
+
   $('.glyphicon-remove').click(function() {
 
     $('.statsDiv').animate({
@@ -161,83 +182,115 @@ $(document).ready(function(){
     var myBarChart = new Chart(document.getElementById("barcanvas").getContext("2d")).Bar(yearChartData, {scaleFontColor: "#ecf0f1", scaleFontSize: 14, scaleGridLineColor : "rgba(255,255,255,0.75)",  scaleGridLineWidth : 0.5});
   });
 
+  $('.incSubmit').click(function() {
+    time = $('#time').val();
+    date = $('#date').val();
+    datetime = date + "T" + time + ":00";
+    console.log(datetime);
+    if ($('.btn-minor').hasClass('btn-active')){
+      severity = "minor"
+    }
+    else if ($('.btn-hospital').hasClass('btn-active')){
+      severity = "hospital"
+    }
+    else {
+      severity = "death"
+    }
+    var vehicles = [];
+    $('.involved-div :checked').each(function () {
+      vehicles.push($(this).val());
+    });
+    vehicles = vehicles.join(",");
+    lat = $('#latInput').val();
+    lng = $('#longInput').val();
+    data = {"accident" : {"time" : datetime, "severity" : severity, "vehicle" : vehicles, "lat" : lat, "lng" : lng}};
+    console.log(data);
+    $.ajax({
+      url : "/accidents/create_accident",
+      type : "POST",
+      data : data,
+      success : console.log("success"),
+      error: console.log("error")
+    });  
 });
 
-var weekChartData = {
-      labels: ["Mon", "Tues", "Wed", "Thur", "Fri", "Sat", "Sun"],
-      datasets: [
-      {
-        label: "My First dataset",
-        fillColor: "rgba(236, 240, 241,1.0)",
-        strokeColor: "rgba(236, 240, 241 ,1.0)",
-        highlightFill: "rgba(220,220,220,0.75)",
-        highlightStroke: "rgba(220,220,220,1)",
-        data: [12, 10, 6, 4, 8, 10, 14]
-      },
-      {
-        label: "My Second dataset",
-        fillColor: "rgba(189, 195, 199,1.0)",
-        strokeColor: "rgba(189, 195, 199,1.0)",
-        highlightFill: "rgba(151,187,205,0.75)",
-        highlightStroke: "rgba(151,187,205,1)",
-        data: [3, 5, 1, 4, 3, 7, 10]
-      }
-      ]
-    };
-    var monthChartData = {
-      labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
-      datasets: [
-      {
-        label: "My First dataset",
-        fillColor: "rgba(236, 240, 241,1.0)",
-        strokeColor: "rgba(236, 240, 241 ,1.0)",
-        highlightFill: "rgba(220,220,220,0.75)",
-        highlightStroke: "rgba(220,220,220,1)",
-        data: [45, 30, 32, 17]
-      },
-      {
-        label: "My Second dataset",
-        fillColor: "rgba(189, 195, 199,1.0)",
-        strokeColor: "rgba(189, 195, 199,1.0)",
-        highlightFill: "rgba(151,187,205,0.75)",
-        highlightStroke: "rgba(151,187,205,1)",
-        data: [13, 17, 3, 14]
-      }
-      ]
-    }; var yearChartData = {
-      labels: ["Jan-Mar", "Apr-Jun", "Jul-Sep", "Oct-Dec"],
-      datasets: [
-      {
-        label: "My First dataset",
-        fillColor: "rgba(236, 240, 241,1.0)",
-        strokeColor: "rgba(236, 240, 241 ,1.0)",
-        highlightFill: "rgba(220,220,220,0.75)",
-        highlightStroke: "rgba(220,220,220,1)",
-        data: [501, 432, 342, 638]
-      },
-      {
-        label: "My Second dataset",
-        fillColor: "rgba(189, 195, 199,1.0)",
-        strokeColor: "rgba(189, 195, 199,1.0)",
-        highlightFill: "rgba(151,187,205,0.75)",
-        highlightStroke: "rgba(151,187,205,1)",
-        data: [150, 65, 76, 247]
-      }
-      ]
-    };
+});
 
-    var doughnutData = [
+  var weekChartData = {
+    labels: ["Mon", "Tues", "Wed", "Thur", "Fri", "Sat", "Sun"],
+    datasets: [
     {
-      value : 60,
-      color : "#3498db"
+      label: "My First dataset",
+      fillColor: "rgba(236, 240, 241,1.0)",
+      strokeColor: "rgba(236, 240, 241 ,1.0)",
+      highlightFill: "rgba(220,220,220,0.75)",
+      highlightStroke: "rgba(220,220,220,1)",
+      data: [12, 10, 6, 4, 8, 10, 14]
     },
     {
-      value : 25,
-      color : "#e74c3c"
-    },
-    {
-      value : 15,
-      color : "#f1c40f"
+      label: "My Second dataset",
+      fillColor: "rgba(189, 195, 199,1.0)",
+      strokeColor: "rgba(189, 195, 199,1.0)",
+      highlightFill: "rgba(151,187,205,0.75)",
+      highlightStroke: "rgba(151,187,205,1)",
+      data: [3, 5, 1, 4, 3, 7, 10]
     }
+    ]
+  };
+  var monthChartData = {
+    labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
+    datasets: [
+    {
+      label: "My First dataset",
+      fillColor: "rgba(236, 240, 241,1.0)",
+      strokeColor: "rgba(236, 240, 241 ,1.0)",
+      highlightFill: "rgba(220,220,220,0.75)",
+      highlightStroke: "rgba(220,220,220,1)",
+      data: [45, 30, 32, 17]
+    },
+    {
+      label: "My Second dataset",
+      fillColor: "rgba(189, 195, 199,1.0)",
+      strokeColor: "rgba(189, 195, 199,1.0)",
+      highlightFill: "rgba(151,187,205,0.75)",
+      highlightStroke: "rgba(151,187,205,1)",
+      data: [13, 17, 3, 14]
+    }
+    ]
+  }; var yearChartData = {
+    labels: ["Jan-Mar", "Apr-Jun", "Jul-Sep", "Oct-Dec"],
+    datasets: [
+    {
+      label: "My First dataset",
+      fillColor: "rgba(236, 240, 241,1.0)",
+      strokeColor: "rgba(236, 240, 241 ,1.0)",
+      highlightFill: "rgba(220,220,220,0.75)",
+      highlightStroke: "rgba(220,220,220,1)",
+      data: [501, 432, 342, 638]
+    },
+    {
+      label: "My Second dataset",
+      fillColor: "rgba(189, 195, 199,1.0)",
+      strokeColor: "rgba(189, 195, 199,1.0)",
+      highlightFill: "rgba(151,187,205,0.75)",
+      highlightStroke: "rgba(151,187,205,1)",
+      data: [150, 65, 76, 247]
+    }
+    ]
+  };
 
-    ];
+  var doughnutData = [
+  {
+    value : 60,
+    color : "#3498db"
+  },
+  {
+    value : 25,
+    color : "#e74c3c"
+  },
+  {
+    value : 15,
+    color : "#f1c40f"
+  }
+
+  ];
