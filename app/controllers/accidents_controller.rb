@@ -22,8 +22,7 @@ class AccidentsController < ApplicationController
         @ip.accidents_in_last_hour = 0
       end
 
-      puts Time.new
-      puts @ip.hourly_accidents_timer
+      record_accident = true
       if Time.new - @ip.hourly_accidents_timer > 1.hours
         @ip.hourly_accidents_timer = DateTime.now
         puts "2", @ip.hourly_accidents_timer
@@ -31,17 +30,20 @@ class AccidentsController < ApplicationController
         @ip.accidents_submitted += 1
       elsif @ip.accidents_in_last_hour >= 10
         format.json {render json: {success: false, error: "Too many submissions per hour" } }
+        record_accident = false
       else
         @ip.accidents_in_last_hour += 1
         @ip.accidents_submitted += 1
       end
       @ip.save
       
-      @accident = Accident.new(accident_params)
-      if @accident.save
-        format.json {render json: {success: true}}    
-      else
-        format.json {render json: {success: false}}
+      if record_accident
+        @accident = Accident.new(accident_params)
+        if @accident.save
+          format.json {render json: {success: true}}    
+        else
+          format.json {render json: {success: false}}
+        end
       end
     end
   end 
