@@ -1,7 +1,9 @@
-var map, pointArray, heatmap, mgr, markerCluster;
+var map, pointArray, heatmap, mgr, markerCluster, newMarker, newLat, newLng;
 
 var markerData = [];
 var markers = [];
+var mPlace = false;
+var isPlaced = false;
 
 $.ajax({
   url : "/accidents/all_accidents",
@@ -16,10 +18,28 @@ $.ajax({
     for ( ; i < len ; i++ ){
       var myLatlng = new google.maps.LatLng(response[i].lat, response[i].lng);
       markerData[i] = myLatlng;
-      var marker = new google.maps.Marker({
-        position: myLatlng,
-        title: "hello!"
-      });
+      console.log(response[i].severity);
+      if (response[i].severity == "hospital"){
+        var marker = new google.maps.Marker({
+          position: myLatlng,
+          title: "hello!",
+          icon: 'assets/hospital.png'
+        });
+      }
+      else if (response[i].severity == "minor"){
+        var marker = new google.maps.Marker({
+          position: myLatlng,
+          title: "hello!",
+          icon: 'assets/minor.png'
+        });
+      }      
+      else {
+        var marker = new google.maps.Marker({
+          position: myLatlng,
+          title: "hello!",
+          icon: 'assets/death.png'
+        });
+      }
       markers.push(marker);      
     };
   },
@@ -29,7 +49,7 @@ $.ajax({
 function initialize() {
   var mapOptions = {
     center: new google.maps.LatLng(51.48, -0.05),
-    zoom: 11,
+    zoom: 12,
     streetViewControl: false
 
   };
@@ -44,6 +64,32 @@ function initialize() {
   heatmap.setMap(map);
   console.log("markers = " + markers.length);
   var markerCluster = new MarkerClusterer(map, markers);
+
+  google.maps.event.addListener(map, 'click', function(event) {
+    mapZoom = map.getZoom();
+    startLocation = event.latLng;
+    console.log(startLocation);
+    placeMarker(startLocation);
+    newLat = event.latLng.lat();
+    newLng = event.latLng.lng();
+  });
+
+  function placeMarker(location) {
+    if (mPlace == true){
+      if (isPlaced == true) {
+        newMarker.setMap(null);
+      }
+      newMarker = new google.maps.Marker({
+        position: location,
+        map: map
+      });
+      $(".btn-place").html('<i class="fa fa-check"></i> Marker placed').button('refresh');
+      mPlace = false;
+      isPlaced = true;
+    }
+
+
+  }
 
   /*google.maps.event.addListener(map, 'click', function(event) {
     placeMarker(event.latLng);
@@ -154,6 +200,11 @@ $(document).ready(function(){
     $('.btn-minor').removeClass('btn-active');
   });
 
+  $('.btn-place').click(function() {
+    mPlace = true;
+  });
+
+
   $('.glyphicon-remove').click(function() {
 
     $('.statsDiv').animate({
@@ -182,6 +233,8 @@ $(document).ready(function(){
     var myBarChart = new Chart(document.getElementById("barcanvas").getContext("2d")).Bar(yearChartData, {scaleFontColor: "#ecf0f1", scaleFontSize: 14, scaleGridLineColor : "rgba(255,255,255,0.75)",  scaleGridLineWidth : 0.5});
   });
 
+  // FORM SUBMIT
+
   $('.incSubmit').click(function() {
     time = $('#time').val();
     date = $('#date').val();
@@ -200,25 +253,33 @@ $(document).ready(function(){
       vehicles.push($(this).val());
     });
     vehicles = vehicles.join(",");
-    lat = $('#latInput').val();
-    lng = $('#longInput').val();
+    lat = newLat;
+    lng = newLng;
     data = {"accident" : {"time" : datetime, "severity" : severity, "vehicle" : vehicles, "lat" : lat, "lng" : lng}};
     console.log("data = " + data);
-    var marker = new google.maps.Marker({
-      map: map,
-      position: new google.maps.LatLng(lat, lng)
-    });
-    $.ajax({
-      url : "/accidents/create_accident",
-      type : "POST",
-      data : data,
-      success : function(response){
-        console.log("Success! Response = " + response);
-      },
-      error: function(err){
-        console.log("Something went wrong. Err = " + err);
-      }
-    });  
+
+    if (time && date && severity && (vehicles != []) && lat && lng) {
+
+
+      $.ajax({
+        url : "/accidents/create_accident",
+        type : "POST",
+        data : data,
+        success : function(response){
+          console.log("Success! Response = " + response);
+        },
+        error: function(err){
+          console.log("Something went wrong. Err = " + err);
+        }
+      });
+      $(".btn-place").html('<i class="fa fa-map-marker"></i> Place Marker').button('refresh');
+      $('#time').val("");
+      $('#date').val("");
+      $('input:checkbox').removeAttr('checked');
+      newLat = 0;
+      newLng = 0;
+      isPlaced = false;
+    }
   });
 
 });
