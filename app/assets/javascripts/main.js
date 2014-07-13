@@ -1,7 +1,9 @@
-var map, pointArray, heatmap, mgr, markerCluster;
+var map, pointArray, heatmap, mgr, markerCluster, newMarker;
 
 var markerData = [];
 var markers = [];
+var mPlace = false;
+var isPlaced = false;
 
 $.ajax({
   url : "/accidents/all_accidents",
@@ -29,7 +31,7 @@ $.ajax({
 function initialize() {
   var mapOptions = {
     center: new google.maps.LatLng(51.48, -0.05),
-    zoom: 11,
+    zoom: 12,
     streetViewControl: false
 
   };
@@ -44,6 +46,30 @@ function initialize() {
   heatmap.setMap(map);
   console.log("markers = " + markers.length);
   var markerCluster = new MarkerClusterer(map, markers);
+
+  google.maps.event.addListener(map, 'click', function(event) {
+    mapZoom = map.getZoom();
+    startLocation = event.latLng;
+    console.log(startLocation);
+    placeMarker(startLocation);
+  });
+
+  function placeMarker(location) {
+    if (mPlace == true){
+      if (isPlaced == true) {
+        newMarker.setMap(null);
+      }
+      newMarker = new google.maps.Marker({
+        position: location,
+        map: map
+      });
+      $(".btn-place").html('<i class="fa fa-check"></i> Marker placed').button('refresh');
+          mPlace = false;
+    isPlaced = true;
+    }
+
+
+  }
 
   /*google.maps.event.addListener(map, 'click', function(event) {
     placeMarker(event.latLng);
@@ -153,6 +179,11 @@ $(document).ready(function(){
     $('.btn-hospital').removeClass('btn-active');
     $('.btn-minor').removeClass('btn-active');
   });
+
+  $('.btn-place').click(function() {
+    mPlace = true;
+  });
+
 
   $('.glyphicon-remove').click(function() {
 
