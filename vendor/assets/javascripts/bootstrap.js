@@ -200,13 +200,13 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap requires jQuery'
     if ($parent.length) {
       var $input = this.$element.find('input')
       if ($input.prop('type') == 'radio') {
-        if ($input.prop('checked') && this.$element.hasClass('active')) changed = false
-        else $parent.find('.active').removeClass('active')
+        if ($input.prop('checked') && this.$element.hasClass('btn-active')) changed = false
+        else $parent.find('.btn-active').removeClass('btn-active')
       }
-      if (changed) $input.prop('checked', !this.$element.hasClass('active')).trigger('change')
+      if (changed) $input.prop('checked', !this.$element.hasClass('btn-active')).trigger('change')
     }
 
-    if (changed) this.$element.toggleClass('active')
+    if (changed) this.$element.toggleClass('btn-active')
   }
 
 
