@@ -1,7 +1,7 @@
 class AccidentsController < ApplicationController
 
   def index
-    if (@ip = Ip.find_by_ip(request.env['REMOTE_ADDR'])).nil?
+    if (@ip = Ip.find_by_ip(get_ip)).nil?
       Ip.create(ip: get_ip, times_visited: 1, accidents_submitted: 0)
     else
       puts @ip.inspect
