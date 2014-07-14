@@ -16,7 +16,7 @@
     zoom: 12,
     streetViewControl: false
   };
-  var map = new google.maps.Map(document.getElementById("map-canvas"),
+  map = new google.maps.Map(document.getElementById("map-canvas"),
     mapOptions);
   var pointArray = new google.maps.MVCArray(markerData);
 
@@ -149,7 +149,19 @@ function getAllAccidents() {
           });
         }
         google.maps.event.addListener(marker, 'click', function() {
-          console.log(this);
+          console.log(this.vehicle);
+          $('.statsDiv').animate({
+            right: "-366px",
+          });
+          $('.statsDiv').css('background-color', 'rgba(46, 204, 113,0)');
+          $('.detailDiv').animate({
+            right: "0px"
+          });
+          $('.detailDiv').css('background-color', 'rgba(46, 204, 113,0.92)');
+          $('.submitDiv').animate({
+            right: "-366px"
+          });
+          $('.submitDiv').css('background-color', 'rgba(46, 204, 113,0)');
         });
         markers.push(marker);      
       };
@@ -224,7 +236,10 @@ $(document).ready(function(){
       right: "-366px"
     });
     $('.submitDiv').css('background-color', 'rgba(46, 204, 113,0)');
-
+    $('.detailDiv').animate({
+      right: "-366px"
+    });
+    $('.detailDiv').css('background-color', 'rgba(46, 204, 113,0)');
   });
 
   $('.submit').click(function() {
@@ -232,12 +247,15 @@ $(document).ready(function(){
     $('.statsDiv').animate({
       right: "-366px",
     });
-    $('.submitDiv').css('background-color', 'rgba(46, 204, 113,0)');
+    $('.statsDiv').css('background-color', 'rgba(46, 204, 113,0)');
+        $('.detailDiv').animate({
+      right: "-366px"
+    });
+    $('.detailDiv').css('background-color', 'rgba(46, 204, 113,0)');
     $('.submitDiv').animate({
       right: "0px"
     });
     $('.submitDiv').css('background-color', 'rgba(46, 204, 113,0.92)');
-
   });
 
   $('.btn-minor').click(function() {
