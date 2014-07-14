@@ -6,261 +6,282 @@
   var isPlaced = false;
 
   function modifyUrl(urlPath){
-     window.history.pushState(null,"", urlPath);
+   window.history.pushState(null,"", urlPath);
+ };
+ modifyUrl("?#about");
+
+ function initialize() {
+  var mapOptions = {
+    center: new google.maps.LatLng(51.48, -0.05),
+    zoom: 12,
+    streetViewControl: false
   };
-  modifyUrl("?#about");
+  var map = new google.maps.Map(document.getElementById("map-canvas"),
+    mapOptions);
+  var pointArray = new google.maps.MVCArray(markerData);
 
-  function initialize() {
-    var mapOptions = {
-      center: new google.maps.LatLng(51.48, -0.05),
-      zoom: 12,
-      streetViewControl: false
-    };
-    var map = new google.maps.Map(document.getElementById("map-canvas"),
-      mapOptions);
-    var pointArray = new google.maps.MVCArray(markerData);
-
-    heatmap = new google.maps.visualization.HeatmapLayer({
-      data: pointArray
-    });
+  heatmap = new google.maps.visualization.HeatmapLayer({
+    data: pointArray
+  });
 
 
-    heatmap.setMap(map);
-    console.log("markers = " + markers.length);
-    var markerCluster = new MarkerClusterer(map, markers);
+  heatmap.setMap(map);
+  console.log("markers = " + markers.length);
+  var markerCluster = new MarkerClusterer(map, markers);
 
-    google.maps.event.addListener(map, 'click', function(event) {
-      mapZoom = map.getZoom();
-      startLocation = event.latLng;
-      console.log(startLocation);
-      placeMarker(startLocation);
-      newLat = event.latLng.lat();
-      newLng = event.latLng.lng();
-    });
+  google.maps.event.addListener(map, 'click', function(event) {
+    mapZoom = map.getZoom();
+    startLocation = event.latLng;
+    console.log(startLocation);
+    placeMarker(startLocation);
+    newLat = event.latLng.lat();
+    newLng = event.latLng.lng();
+  });
 
-    function placeMarker(location) {
-      if (mPlace == true){
-        if (isPlaced == true) {
-          newMarker.setMap(null);
-        }
-        newMarker = new google.maps.Marker({
-          position: location,
-          map: map
-        });
-        $(".btn-place").html('<i class="fa fa-check"></i> Marker placed').button('refresh');
-        mPlace = false;
-        isPlaced = true;
+  function placeMarker(location) {
+    if (mPlace == true){
+      if (isPlaced == true) {
+        newMarker.setMap(null);
+      }
+      newMarker = new google.maps.Marker({
+        position: location,
+        map: map
+      });
+      $(".btn-place").html('<i class="fa fa-check"></i> Marker placed').button('refresh');
+      mPlace = false;
+      isPlaced = true;
+    }
+  }
+}
+
+function updateStats(response) {
+  var i = 0, len = response.length;
+
+  var busC = 0, carC = 0, motorcycleC = 0, pedestrianC = 0, lorryC = 0, vanC = 0, taxiC = 0, bicycleC = 0, totalC = 0;
+
+  for ( ; i < len ; i++ ) {
+
+    var parts = response[i].vehicle.split(',');
+    var j = 0, lenP = parts.length;
+    for ( ; j < len ; j++ ) {
+      totalC++;
+      switch(parts[j]) {
+        case "bus":
+        busC++;
+        break;
+        case "car":
+        carC++;
+        break;
+        case "motorcycle":
+        motorcycleC++;
+        break;
+        case "pedestrian":
+        pedestrianC++;
+        break;
+        case "lorry":
+        lorryC++;
+        break;
+        case "van":
+        vanC++;
+        break;
+        case "taxi":
+        taxiC++;
+        break;
+        case "bicycle":
+        bicycleC++;
       }
     }
   }
+  doughnutData[0].value = (100.0 * busC)/totalC;
+  doughnutData[1].value = (100.0 * motorcycleC)/totalC;
+  doughnutData[2].value = (100.0 * carC)/totalC;
+  doughnutData[3].value = (100.0 * pedestrianC)/totalC;
+  doughnutData[4].value = (100.0 * lorryC)/totalC;
+  doughnutData[5].value = (100.0 * vanC)/totalC;
+  doughnutData[6].value = (100.0 * taxiC)/totalC;
+  doughnutData[7].value = (100.0 * bicycleC)/totalC;
 
-  function updateStats(response) {
-    var i = 0, len = response.length;
-    
-    var busC = 0, carC = 0, motorcycleC = 0, totalC = 0;
-    
-    for ( ; i < len ; i++ ) {
+}
 
-      var parts = response[i].vehicle.split(',');
-      var j = 0, lenP = parts.length;
-      for ( ; j < len ; j++ ) {
-        totalC++;
-        switch(parts[j]) {
-          case "bus":
-            busC++;
-            break;
-          case "car":
-            carC++;
-            break;
-          case "motorcycle":
-            motorcycleC++;
+function getAllAccidents() {  
+  $.ajax({
+    url : "/accidents/all_accidents",
+    type : "GET",
+    success: function (resp) {
+      console.log("resp =" + resp);
+      response = resp;
+
+      var i = 0, len = response.length;
+      for
+       ( ; i < len ; i++ ){
+        var myLatlng = new google.maps.LatLng(response[i].lat, response[i].lng);
+        markerData[i] = myLatlng;
+        if (response[i].severity == "hospital"){
+          var marker = new google.maps.Marker({
+            position: myLatlng,
+            title: "hello!",
+            icon: 'assets/hospital.png'
+          });
         }
-      }
-    }
-    doughnutData[0].value = (100.0 * busC)/totalC;
-    doughnutData[1].value = (100.0 * motorcycleC)/totalC;
-    doughnutData[2].value = (100.0 * carC)/totalC;
-  }
+        else if (response[i].severity == "minor"){
+          console.log(response[i].severity);
+          var marker = new google.maps.Marker({
+            position: myLatlng,
+            title: "hello!",
+            icon: 'assets/minor.png'
+          });
+          console.log("marker added");
+        }      
+        else {
 
-  function getAllAccidents() {  
-    $.ajax({
-      url : "/accidents/all_accidents",
-      type : "GET",
-      success: function (resp) {
-        console.log("resp =" + resp);
-        response = resp;
+          var marker = new google.maps.Marker({
+            position: myLatlng,
+            title: "hello!",
+            icon: 'assets/death.png'
+          });
+        }
+        markers.push(marker);      
+      };
+      updateStats(resp);
+      initialize();
+    },
+    error: function(err) { console.log("error get: " + err) }
+  });
+}
 
-        var i = 0, len = response.length;
-        for
-         ( ; i < len ; i++ ){
-          var myLatlng = new google.maps.LatLng(response[i].lat, response[i].lng);
-          markerData[i] = myLatlng;
-          if (response[i].severity == "hospital"){
-            var marker = new google.maps.Marker({
-              position: myLatlng,
-              title: "hello!",
-              icon: 'assets/hospital.png'
-            });
-          }
-          else if (response[i].severity == "minor"){
-            console.log(response[i].severity);
-            var marker = new google.maps.Marker({
-              position: myLatlng,
-              title: "hello!",
-              icon: 'assets/minor.png'
-            });
-            console.log("marker added");
-          }      
-          else {
+function toggleHeatmap() {
+  heatmap.setMap(heatmap.getMap() ? null : map);
+}
 
-            var marker = new google.maps.Marker({
-              position: myLatlng,
-              title: "hello!",
-              icon: 'assets/death.png'
-            });
-          }
-          markers.push(marker);      
-        };
-        updateStats(resp);
-        initialize();
-      },
-      error: function(err) { console.log("error get: " + err) }
+function changeGradient() {
+  var gradient = [
+  'rgba(0, 255, 255, 0)',
+  'rgba(0, 255, 255, 1)',
+  'rgba(0, 191, 255, 1)',
+  'rgba(0, 127, 255, 1)',
+  'rgba(0, 63, 255, 1)',
+  'rgba(0, 0, 255, 1)',
+  'rgba(0, 0, 223, 1)',
+  'rgba(0, 0, 191, 1)',
+  'rgba(0, 0, 159, 1)',
+  'rgba(0, 0, 127, 1)',
+  'rgba(63, 0, 91, 1)',
+  'rgba(127, 0, 63, 1)',
+  'rgba(191, 0, 31, 1)',
+  'rgba(255, 0, 0, 1)'
+  ]
+  heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
+}
+
+function changeRadius() {
+  heatmap.set('radius', heatmap.get('radius') ? null : 20);
+}
+
+function changeOpacity() {
+  heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
+}
+
+function loadMapScript() {
+  console.log("LOADING MAP SCRIPT");
+  var script = document.createElement('script');
+  script.type = 'text/javascript'
+  script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=visualization&callback=loadClusterScript';
+  document.body.appendChild(script);
+}
+function loadClusterScript() {
+  console.log("LOADING CLUSTER SCRIPT");
+  $.getScript('http://google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.0.1/src/markerclusterer.js', function(){
+    console.log("cluster script is loaded");
+    getAllAccidents();
+  });
+}
+window.onload = loadMapScript;
+
+$(document).ready(function(){
+
+  $('.stats').click(function() {
+
+    $('.statsDiv').animate({
+      right: "0px"
     });
-  }
+    $('.statsDiv').css('background-color', 'rgba(46, 204, 113,0.92)');
 
-  function toggleHeatmap() {
-    heatmap.setMap(heatmap.getMap() ? null : map);
-  }
+    var myBarChart = new Chart(document.getElementById("barcanvas").getContext("2d")).Bar(weekChartData, {scaleFontColor: "#ecf0f1", scaleFontSize: 14, scaleGridLineColor : "rgba(255,255,255,0.75)",  scaleGridLineWidth : 0.5});
+    var myDoughnut = new Chart(document.getElementById("donutcanvas").getContext("2d")).Doughnut(doughnutData);
 
-  function changeGradient() {
-    var gradient = [
-    'rgba(0, 255, 255, 0)',
-    'rgba(0, 255, 255, 1)',
-    'rgba(0, 191, 255, 1)',
-    'rgba(0, 127, 255, 1)',
-    'rgba(0, 63, 255, 1)',
-    'rgba(0, 0, 255, 1)',
-    'rgba(0, 0, 223, 1)',
-    'rgba(0, 0, 191, 1)',
-    'rgba(0, 0, 159, 1)',
-    'rgba(0, 0, 127, 1)',
-    'rgba(63, 0, 91, 1)',
-    'rgba(127, 0, 63, 1)',
-    'rgba(191, 0, 31, 1)',
-    'rgba(255, 0, 0, 1)'
-    ]
-    heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
-  }
-
-  function changeRadius() {
-    heatmap.set('radius', heatmap.get('radius') ? null : 20);
-  }
-
-  function changeOpacity() {
-    heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
-  }
-
-  function loadMapScript() {
-    console.log("LOADING MAP SCRIPT");
-    var script = document.createElement('script');
-    script.type = 'text/javascript'
-    script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=visualization&callback=loadClusterScript';
-    document.body.appendChild(script);
-  }
-  function loadClusterScript() {
-    console.log("LOADING CLUSTER SCRIPT");
-    $.getScript('http://google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.0.1/src/markerclusterer.js', function(){
-      console.log("cluster script is loaded");
-      getAllAccidents();
+    $('.submitDiv').animate({
+      right: "-366px"
     });
-  }
-  window.onload = loadMapScript;
+    $('.submitDiv').css('background-color', 'rgba(46, 204, 113,0)');
 
-  $(document).ready(function(){
+  });
 
-    $('.stats').click(function() {
+  $('.submit').click(function() {
 
-      $('.statsDiv').animate({
-        right: "0px"
-      });
-      $('.statsDiv').css('background-color', 'rgba(46, 204, 113,0.92)');
+    $('.statsDiv').animate({
+      right: "-366px",
+    });
+    $('.submitDiv').css('background-color', 'rgba(46, 204, 113,0)');
+    $('.submitDiv').animate({
+      right: "0px"
+    });
+    $('.submitDiv').css('background-color', 'rgba(46, 204, 113,0.92)');
 
-      var myBarChart = new Chart(document.getElementById("barcanvas").getContext("2d")).Bar(weekChartData, {scaleFontColor: "#ecf0f1", scaleFontSize: 14, scaleGridLineColor : "rgba(255,255,255,0.75)",  scaleGridLineWidth : 0.5});
-      var myDoughnut = new Chart(document.getElementById("donutcanvas").getContext("2d")).Doughnut(doughnutData);
+  });
 
-      $('.submitDiv').animate({
-        right: "-366px"
-      });
+  $('.btn-minor').click(function() {
+
+    $(this).addClass('btn-active');
+    $('.btn-hospital').removeClass('btn-active');
+    $('.btn-death').removeClass('btn-active');
+  });
+
+  $('.btn-hospital').click(function() {
+
+    $(this).addClass('btn-active');
+    $('.btn-minor').removeClass('btn-active');
+    $('.btn-death').removeClass('btn-active');
+  });
+
+  $('.btn-death').click(function() {
+
+    $(this).addClass('btn-active');
+    $('.btn-hospital').removeClass('btn-active');
+    $('.btn-minor').removeClass('btn-active');
+  });
+
+  $('.btn-place').click(function() {
+    mPlace = true;
+  });
+
+
+  $('.glyphicon-remove').click(function() {
+
+    $('.statsDiv').animate({
+      right: "-366px"
+    });
+    setTimeout( function(){
+      $('.statsDiv').css('background-color', 'rgba(46, 204, 113,0)');
+    },500);
+    $('.submitDiv').animate({
+      right: "-366px"
+    });
+    setTimeout( function(){
       $('.submitDiv').css('background-color', 'rgba(46, 204, 113,0)');
+    },500);
 
-    });
-
-    $('.submit').click(function() {
-
-      $('.statsDiv').animate({
-        right: "-366px",
-      });
-      $('.submitDiv').css('background-color', 'rgba(46, 204, 113,0)');
-      $('.submitDiv').animate({
-        right: "0px"
-      });
-      $('.submitDiv').css('background-color', 'rgba(46, 204, 113,0.92)');
-
-    });
-
-    $('.btn-minor').click(function() {
-
-      $(this).addClass('btn-active');
-      $('.btn-hospital').removeClass('btn-active');
-      $('.btn-death').removeClass('btn-active');
-    });
-
-    $('.btn-hospital').click(function() {
-
-      $(this).addClass('btn-active');
-      $('.btn-minor').removeClass('btn-active');
-      $('.btn-death').removeClass('btn-active');
-    });
-
-    $('.btn-death').click(function() {
-
-      $(this).addClass('btn-active');
-      $('.btn-hospital').removeClass('btn-active');
-      $('.btn-minor').removeClass('btn-active');
-    });
-
-    $('.btn-place').click(function() {
-      mPlace = true;
-    });
+  });
 
 
-    $('.glyphicon-remove').click(function() {
-
-      $('.statsDiv').animate({
-        right: "-366px"
-      });
-      setTimeout( function(){
-        $('.statsDiv').css('background-color', 'rgba(46, 204, 113,0)');
-      },500);
-      $('.submitDiv').animate({
-        right: "-366px"
-      });
-      setTimeout( function(){
-        $('.submitDiv').css('background-color', 'rgba(46, 204, 113,0)');
-      },500);
-
-    });
-
-
-    $('#week').click(function() {
-      var myBarChart = new Chart(document.getElementById("barcanvas").getContext("2d")).Bar(weekChartData, {scaleFontColor: "#ecf0f1", scaleFontSize: 14, scaleGridLineColor : "rgba(255,255,255,0.75)",  scaleGridLineWidth : 0.5});
-    });
-    $('#month').click(function() {
-      var myBarChart = new Chart(document.getElementById("barcanvas").getContext("2d")).Bar(monthChartData, {scaleFontColor: "#ecf0f1", scaleFontSize: 14, scaleGridLineColor : "rgba(255,255,255,0.75)",  scaleGridLineWidth : 0.5});
-    });
-    $('#year').click(function() {
-      var myBarChart = new Chart(document.getElementById("barcanvas").getContext("2d")).Bar(yearChartData, {scaleFontColor: "#ecf0f1", scaleFontSize: 14, scaleGridLineColor : "rgba(255,255,255,0.75)",  scaleGridLineWidth : 0.5});
-    });
+  $('#week').click(function() {
+    var myBarChart = new Chart(document.getElementById("barcanvas").getContext("2d")).Bar(weekChartData, {scaleFontColor: "#ecf0f1", scaleFontSize: 14, scaleGridLineColor : "rgba(255,255,255,0.75)",  scaleGridLineWidth : 0.5});
+  });
+  $('#month').click(function() {
+    var myBarChart = new Chart(document.getElementById("barcanvas").getContext("2d")).Bar(monthChartData, {scaleFontColor: "#ecf0f1", scaleFontSize: 14, scaleGridLineColor : "rgba(255,255,255,0.75)",  scaleGridLineWidth : 0.5});
+  });
+  $('#year').click(function() {
+    var myBarChart = new Chart(document.getElementById("barcanvas").getContext("2d")).Bar(yearChartData, {scaleFontColor: "#ecf0f1", scaleFontSize: 14, scaleGridLineColor : "rgba(255,255,255,0.75)",  scaleGridLineWidth : 0.5});
+  });
 
     // FORM SUBMIT
     $('.incSubmit').click(function() {
@@ -387,6 +408,26 @@
   {
     value : 15,
     color : "#f1c40f"
+  },
+  {
+    value : 15,
+    color : "#2ecc71"
+  },
+    {
+    value : 15,
+    color : "#9b59b6"
+  },
+    {
+    value : 15,
+    color : "#34495e"
+  },
+    {
+    value : 15,
+    color : "#ecf0f1"
+  },
+    {
+    value : 15,
+    color : "#1abc9c"
   }
 
   ];
