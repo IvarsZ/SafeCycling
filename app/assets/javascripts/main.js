@@ -194,8 +194,8 @@ function getAllAccidents() {
           geocoder.geocode({'latLng': this.position}, function(results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
               if (results[1]) {
-                $(".detailLocation").html(results[1].formatted_address);
-                $(".detailDate").html(d);
+                $(".detailLocation").html('<i class="fa fa-calendar"></i>  ' + results[1].formatted_address);
+                $(".detailDate").html('<i class="fa fa-clock-o"></i>  ' + d);
               } else {
 
               }
@@ -217,8 +217,33 @@ function getAllAccidents() {
             $('.detailDiv > .btn-hospital').removeClass('btn-active');
             $('.detailDiv > .btn-death').addClass('btn-active');
           }
-
-        });
+          $('.detail-involved-div').html("");
+          if (this.vehicle.match("bus")){
+            $('.detail-involved-div').append('<button type="button" class="btn btn-default" style="background-color: #3498db; color: white">Bus</button>');
+          }
+          if (this.vehicle.match("motorcycle")){
+            $('.detail-involved-div').append('<button type="button" class="btn btn-default" style="background-color: #e74c3c; color: white">Motorcycle</button>');
+          }
+          if (this.vehicle.match("car")){
+            $('.detail-involved-div').append('<button type="button" class="btn btn-default" style="background-color: #f1c40f; color: white">Car</button>');
+          }
+          if (this.vehicle.match("van")){
+            $('.detail-involved-div').append('<button type="button" class="btn btn-default" style="background-color: #2ecc71; color: white">Van</button>');
+          }
+          if (this.vehicle.match("lorry")){
+            $('.detail-involved-div').append('<button type="button" class="btn btn-default" style="background-color: #9b59b6; color: white">Lorry</button>');
+          }
+          if (this.vehicle.match("pedestrian")){
+            $('.detail-involved-div').append('<button type="button" class="btn btn-default" style="background-color: #34495e; color: white">Pedestrian</button>');
+          }
+          if (this.vehicle.match("taxi")){
+            $('.detail-involved-div').append('<button type="button" class="btn btn-default" style="background-color: #ecf0f1; color: gray">Taxi</button>');
+          }
+          if (this.vehicle.match("bicycle")){
+            $('.detail-involved-div').append('<button type="button" class="btn btn-default" style="background-color: #1abc9c; color: white">Bicycle</button>');
+          }
+          $('.detailDescription').html(this.description);
+    });
   markers.push(marker);      
 };
 updateStats(resp);
@@ -297,7 +322,10 @@ $(document).ready(function(){
   });
 
   $('.submit').click(function() {
-
+    $('.submitDiv').animate({
+      right: "0px"
+    });
+    $('.submitDiv').css('background-color', 'rgba(46, 204, 113,0.92)');
     $('.statsDiv').animate({
       right: "-366px",
     });
@@ -306,10 +334,6 @@ $(document).ready(function(){
       right: "-366px"
     });
     $('.detailDiv').css('background-color', 'rgba(46, 204, 113,0)');
-    $('.submitDiv').animate({
-      right: "0px"
-    });
-    $('.submitDiv').css('background-color', 'rgba(46, 204, 113,0.92)');
   });
 
   $('.btn-minor').click(function() {
