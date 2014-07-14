@@ -362,7 +362,7 @@ $(document).ready(function(){
   });
 
 
-  $('.glyphicon-remove').click(function() {
+$('.glyphicon-remove').click(function() {
 
     $('.statsDiv').animate({
       right: "-366px"
@@ -375,6 +375,12 @@ $(document).ready(function(){
     });
     setTimeout( function(){
       $('.submitDiv').css('background-color', 'rgba(46, 204, 113,0)');
+    },500);
+    $('.detailDiv').animate({
+      right: "-366px"
+    });
+    setTimeout( function(){
+      $('.detailDiv').css('background-color', 'rgba(46, 204, 113,0)');
     },500);
 
   });
