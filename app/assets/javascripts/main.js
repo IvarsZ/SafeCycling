@@ -1,4 +1,4 @@
-  var map, pointArray, heatmap, mgr, markerCluster, newMarker, newLat, newLng;
+  var map, pointArray, heatmap, mgr, markerCluster, newMarker, newLat, newLng, geocoder;
 
   var markerData = [];
   var markers = [];
@@ -11,6 +11,7 @@
  modifyUrl("?#about");
 
  function initialize() {
+  geocoder = new google.maps.Geocoder();
   var mapOptions = {
     center: new google.maps.LatLng(51.48, -0.05),
     zoom: 12,
@@ -111,6 +112,23 @@ function updateStats(response) {
     timeCounts[h]++;
   }
   console.log(timeCounts);
+
+
+  var weekChartData = {
+    labels: ["00", "", "", "03", "", "", "06","", "", "09", "", "", "12","", "", "15", "", "", "18","", "", "21", "", ""],
+    datasets: [
+    {
+      label: "My First dataset",
+      fillColor: "rgba(236, 240, 241,1.0)",
+      strokeColor: "rgba(236, 240, 241 ,1.0)",
+      highlightFill: "rgba(220,220,220,0.75)",
+      highlightStroke: "rgba(220,220,220,1)",
+      data: timeCounts
+    }
+    ]
+  };
+
+  var myBarChart = new Chart(document.getElementById("barcanvas").getContext("2d")).Bar(weekChartData, {scaleFontColor: "#ecf0f1", scaleFontSize: 11, scaleGridLineColor : "rgba(255,255,255,0.75)",  scaleGridLineWidth : 0.6});
 }
 
 function getAllAccidents() {  
@@ -159,7 +177,7 @@ function getAllAccidents() {
           });
         }
         google.maps.event.addListener(marker, 'click', function() {
-          console.log(this.vehicle);
+          console.log(this.position);
           $('.statsDiv').animate({
             right: "-366px",
           });
@@ -172,14 +190,42 @@ function getAllAccidents() {
             right: "-366px"
           });
           $('.submitDiv').css('background-color', 'rgba(46, 204, 113,0)');
+          d = new Date(this.datetime);
+          geocoder.geocode({'latLng': this.position}, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+              if (results[1]) {
+                $(".detailLocation").html(results[1].formatted_address);
+                $(".detailDate").html(d);
+              } else {
+
+              }
+            } else {
+            }
+          });
+          if (this.severity == "minor"){
+            $('.detailDiv > .btn-minor').addClass('btn-active');
+            $('.detailDiv > .btn-hospital').removeClass('btn-active');
+            $('.detailDiv > .btn-death').removeClass('btn-active');
+          }
+          else if (this.severity == "hospital") {
+            $('.detailDiv > .btn-minor').removeClass('btn-active');
+            $('.detailDiv > .btn-hospital').addClass('btn-active');
+            $('.detailDiv > .btn-death').removeClass('btn-active');
+          }
+          else {
+            $('.detailDiv > .btn-minor').removeClass('btn-active');
+            $('.detailDiv > .btn-hospital').removeClass('btn-active');
+            $('.detailDiv > .btn-death').addClass('btn-active');
+          }
+
         });
-        markers.push(marker);      
-      };
-      updateStats(resp);
-      initialize();
-    },
-    error: function(err) { console.log("error get: " + err) }
-  });
+  markers.push(marker);      
+};
+updateStats(resp);
+initialize();
+},
+error: function(err) { console.log("error get: " + err) }
+});
 }
 
 function toggleHeatmap() {
@@ -238,8 +284,6 @@ $(document).ready(function(){
       right: "0px"
     });
     $('.statsDiv').css('background-color', 'rgba(46, 204, 113,0.92)');
-
-    var myBarChart = new Chart(document.getElementById("barcanvas").getContext("2d")).Bar(weekChartData, {scaleFontColor: "#ecf0f1", scaleFontSize: 14, scaleGridLineColor : "rgba(255,255,255,0.75)",  scaleGridLineWidth : 0.5});
     var myDoughnut = new Chart(document.getElementById("donutcanvas").getContext("2d")).Doughnut(doughnutData);
 
     $('.submitDiv').animate({
@@ -258,7 +302,7 @@ $(document).ready(function(){
       right: "-366px",
     });
     $('.statsDiv').css('background-color', 'rgba(46, 204, 113,0)');
-        $('.detailDiv').animate({
+    $('.detailDiv').animate({
       right: "-366px"
     });
     $('.detailDiv').css('background-color', 'rgba(46, 204, 113,0)');
@@ -315,12 +359,6 @@ $(document).ready(function(){
   $('#week').click(function() {
     var myBarChart = new Chart(document.getElementById("barcanvas").getContext("2d")).Bar(weekChartData, {scaleFontColor: "#ecf0f1", scaleFontSize: 14, scaleGridLineColor : "rgba(255,255,255,0.75)",  scaleGridLineWidth : 0.5});
   });
-  $('#month').click(function() {
-    var myBarChart = new Chart(document.getElementById("barcanvas").getContext("2d")).Bar(monthChartData, {scaleFontColor: "#ecf0f1", scaleFontSize: 14, scaleGridLineColor : "rgba(255,255,255,0.75)",  scaleGridLineWidth : 0.5});
-  });
-  $('#year').click(function() {
-    var myBarChart = new Chart(document.getElementById("barcanvas").getContext("2d")).Bar(yearChartData, {scaleFontColor: "#ecf0f1", scaleFontSize: 14, scaleGridLineColor : "rgba(255,255,255,0.75)",  scaleGridLineWidth : 0.5});
-  });
 
     // FORM SUBMIT
     $('.incSubmit').click(function() {
@@ -372,69 +410,6 @@ $(document).ready(function(){
     });
 
 });
-
-  var weekChartData = {
-    labels: ["Mon", "Tues", "Wed", "Thur", "Fri", "Sat", "Sun"],
-    datasets: [
-    {
-      label: "My First dataset",
-      fillColor: "rgba(236, 240, 241,1.0)",
-      strokeColor: "rgba(236, 240, 241 ,1.0)",
-      highlightFill: "rgba(220,220,220,0.75)",
-      highlightStroke: "rgba(220,220,220,1)",
-      data: [12, 10, 6, 4, 8, 10, 14]
-    },
-    {
-      label: "My Second dataset",
-      fillColor: "rgba(189, 195, 199,1.0)",
-      strokeColor: "rgba(189, 195, 199,1.0)",
-      highlightFill: "rgba(151,187,205,0.75)",
-      highlightStroke: "rgba(151,187,205,1)",
-      data: [3, 5, 1, 4, 3, 7, 10]
-    }
-    ]
-  };
-  var monthChartData = {
-    labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
-    datasets: [
-    {
-      label: "My First dataset",
-      fillColor: "rgba(236, 240, 241,1.0)",
-      strokeColor: "rgba(236, 240, 241 ,1.0)",
-      highlightFill: "rgba(220,220,220,0.75)",
-      highlightStroke: "rgba(220,220,220,1)",
-      data: [45, 30, 32, 17]
-    },
-    {
-      label: "My Second dataset",
-      fillColor: "rgba(189, 195, 199,1.0)",
-      strokeColor: "rgba(189, 195, 199,1.0)",
-      highlightFill: "rgba(151,187,205,0.75)",
-      highlightStroke: "rgba(151,187,205,1)",
-      data: [13, 17, 3, 14]
-    }
-    ]
-  }; var yearChartData = {
-    labels: ["Jan-Mar", "Apr-Jun", "Jul-Sep", "Oct-Dec"],
-    datasets: [
-    {
-      label: "My First dataset",
-      fillColor: "rgba(236, 240, 241,1.0)",
-      strokeColor: "rgba(236, 240, 241 ,1.0)",
-      highlightFill: "rgba(220,220,220,0.75)",
-      highlightStroke: "rgba(220,220,220,1)",
-      data: [501, 432, 342, 638]
-    },
-    {
-      label: "My Second dataset",
-      fillColor: "rgba(189, 195, 199,1.0)",
-      strokeColor: "rgba(189, 195, 199,1.0)",
-      highlightFill: "rgba(151,187,205,0.75)",
-      highlightStroke: "rgba(151,187,205,1)",
-      data: [150, 65, 76, 247]
-    }
-    ]
-  };
 
   var doughnutData = [
   {
