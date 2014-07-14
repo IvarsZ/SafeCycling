@@ -179,3 +179,7 @@ form label {
 .btn:hover {
 	color: #ddd;
 }
+
+.crafted {
+	font-size: 11px;
+}

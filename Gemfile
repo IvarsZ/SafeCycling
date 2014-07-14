@@ -9,6 +9,8 @@ end
 
 gem "rails_refactor"
 
+gem 'tzinfo-data'
+
 # Use sqlite3 as the database for Active Record
 gem 'pg'
 
@@ -49,3 +51,5 @@ end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+
+gem 'sqlite3'
