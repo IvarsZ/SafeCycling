@@ -57,7 +57,7 @@ class AccidentsController < ApplicationController
   private
     
     def accident_params
-      params.require(:accident).permit(:time, :severity, :vehicle, :lat, :lng)
+      params.require(:accident).permit(:time, :severity, :vehicle, :lat, :lng, :description)
     end
 
     def get_ip
