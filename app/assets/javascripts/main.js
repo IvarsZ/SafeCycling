@@ -54,6 +54,34 @@
     }
   }
 
+  function updateStats(response) {
+    var i = 0, len = response.length;
+    
+    var busC = 0, carC = 0, motorcycleC = 0, totalC = 0;
+    
+    for ( ; i < len ; i++ ) {
+
+      var parts = response[i].vehicle.split(',');
+      var j = 0, lenP = parts.length;
+      for ( ; j < len ; j++ ) {
+        totalC++;
+        switch(parts[j]) {
+          case "bus":
+            busC++;
+            break;
+          case "car":
+            carC++;
+            break;
+          case "motorcycle":
+            motorcycleC++;
+        }
+      }
+    }
+    doughnutData[0].value = (100.0 * busC)/totalC;
+    doughnutData[1].value = (100.0 * motorcycleC)/totalC;
+    doughnutData[2].value = (100.0 * carC)/totalC;
+  }
+
   function getAllAccidents() {  
     $.ajax({
       url : "/accidents/all_accidents",
@@ -93,6 +121,7 @@
           }
           markers.push(marker);      
         };
+        updateStats(resp);
         initialize();
       },
       error: function(err) { console.log("error get: " + err) }
