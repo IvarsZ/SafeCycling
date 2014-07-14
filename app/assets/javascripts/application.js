@@ -15,8 +15,6 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require bootstrap
-//= require maps
-//= require clusters
 //= require chart
 //= require main
 //= require_tree .

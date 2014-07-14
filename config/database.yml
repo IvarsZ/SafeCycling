@@ -11,3 +11,10 @@ test:
   username: user
   password: password
   database: safecylcing-test
+
+production:
+  adapter: postgresql
+  host: localhost
+  username: user
+  password: password
+  database: safecylcing-production

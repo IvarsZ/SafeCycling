@@ -49,68 +49,50 @@
     }
   }
 
+  function getAllAccidents() {  
+    $.ajax({
+      url : "/accidents/all_accidents",
+      type : "GET",
+      success: function (resp) {
+        console.log("resp =" + resp);
+        response = resp;
 
+        var i = 0, len = response.length;
+        for
+         ( ; i < len ; i++ ){
+          var myLatlng = new google.maps.LatLng(response[i].lat, response[i].lng);
+          markerData[i] = myLatlng;
+          if (response[i].severity == "hospital"){
+            var marker = new google.maps.Marker({
+              position: myLatlng,
+              title: "hello!",
+              icon: 'assets/hospital.png'
+            });
+          }
+          else if (response[i].severity == "minor"){
+            console.log(response[i].severity);
+            var marker = new google.maps.Marker({
+              position: myLatlng,
+              title: "hello!",
+              icon: 'assets/minor.png'
+            });
+            console.log("marker added");
+          }      
+          else {
 
-  $.ajax({
-    url : "/accidents/all_accidents",
-    type : "GET",
-    success: function (resp) {
-      console.log("resp =" + resp);
-      response = resp;
-
-      var i = 0,
-      len = response.length;
-      for
-       ( ; i < len ; i++ ){
-        var myLatlng = new google.maps.LatLng(response[i].lat, response[i].lng);
-        markerData[i] = myLatlng;
-        console.log(response[i].severity);
-        if (response[i].severity == "hospital"){
-          var marker = new google.maps.Marker({
-            position: myLatlng,
-            title: "hello!",
-            icon: 'assets/hospital.png'
-          });
-        }
-        else if (response[i].severity == "minor"){
-          var marker = new google.maps.Marker({
-            position: myLatlng,
-            title: "hello!",
-            icon: 'assets/minor.png'
-          });
-        }      
-        else {
-
-          var marker = new google.maps.Marker({
-            position: myLatlng,
-            title: "hello!",
-            icon: 'assets/death.png'
-          });
-        }
-        markers.push(marker);      
-      };
-    },
-    error: console.log("error get")
-  });
-
-
-
-
-
-  /*
-  function placeMarker(location) {
-    console.log(location);
-    var marker = new google.maps.Marker({
-      position: location, 
-      map: map
+            var marker = new google.maps.Marker({
+              position: myLatlng,
+              title: "hello!",
+              icon: 'assets/death.png'
+            });
+          }
+          markers.push(marker);      
+        };
+        initialize();
+      },
+      error: function(err) { console.log("error get: " + err) }
     });
-    markers.push(marker);
-    console.log("markers = " + markers.length);
-    var markerCluster = new MarkerClusterer(map, markers);
-    google.maps.event.trigger(map, 'resize');
   }
-  */
-
 
   function toggleHeatmap() {
     heatmap.setMap(heatmap.getMap() ? null : map);
@@ -144,8 +126,21 @@
     heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
   }
 
-  google.maps.event.addDomListener(window, 'load', initialize);
-
+  function loadMapScript() {
+    console.log("LOADING MAP SCRIPT");
+    var script = document.createElement('script');
+    script.type = 'text/javascript'
+    script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=visualization&callback=loadClusterScript';
+    document.body.appendChild(script);
+  }
+  function loadClusterScript() {
+    console.log("LOADING CLUSTER SCRIPT");
+    $.getScript('http://google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.0.1/src/markerclusterer.js', function(){
+      console.log("cluster script is loaded");
+      getAllAccidents();
+    });
+  }
+  window.onload = loadMapScript;
 
   $(document).ready(function(){
 
@@ -234,7 +229,6 @@
     });
 
     // FORM SUBMIT
-
     $('.incSubmit').click(function() {
       time = $('#time').val();
       date = $('#date').val();
