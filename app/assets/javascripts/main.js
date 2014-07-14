@@ -5,6 +5,11 @@
   var mPlace = false;
   var isPlaced = false;
 
+  function modifyUrl(urlPath){
+     window.history.pushState(null,"", urlPath);
+  };
+  modifyUrl("?#about");
+
   function initialize() {
     var mapOptions = {
       center: new google.maps.LatLng(51.48, -0.05),
