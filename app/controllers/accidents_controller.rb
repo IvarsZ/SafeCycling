@@ -61,6 +61,8 @@ class AccidentsController < ApplicationController
     end
 
     def get_ip
+      puts "!!!!!!!!!!! IP !!!!!!!!!!!!!"
+      puts request.env['HTTP_X_FORWARDED_FOR'] || request.remote_ip
       request.env['HTTP_X_FORWARDED_FOR'] || request.remote_ip
     end
 end
