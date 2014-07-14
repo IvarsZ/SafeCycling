@@ -119,27 +119,38 @@ function getAllAccidents() {
         if (response[i].severity == "hospital"){
           var marker = new google.maps.Marker({
             position: myLatlng,
-            title: "hello!",
-            icon: 'assets/hospital.png'
+            icon: 'assets/hospital.png',
+            severity: 'hospital',
+            datetime: response[i].time,
+            vehicle: response[i].vehicle,
+            description: response[i].description
           });
         }
         else if (response[i].severity == "minor"){
           console.log(response[i].severity);
           var marker = new google.maps.Marker({
             position: myLatlng,
-            title: "hello!",
-            icon: 'assets/minor.png'
+            icon: 'assets/minor.png',
+            severity: 'minor',
+            datetime: response[i].time,
+            vehicle: response[i].vehicle,
+            description: response[i].description
           });
           console.log("marker added");
         }      
         else {
-
           var marker = new google.maps.Marker({
             position: myLatlng,
-            title: "hello!",
-            icon: 'assets/death.png'
+            icon: 'assets/death.png',
+            severity: 'death',
+            datetime: response[i].time,
+            vehicle: response[i].vehicle,
+            description: response[i].description
           });
         }
+        google.maps.event.addListener(marker, 'click', function() {
+          console.log(this);
+        });
         markers.push(marker);      
       };
       updateStats(resp);
@@ -297,17 +308,18 @@ $(document).ready(function(){
       else {
         severity = "death"
       }
-      var vehicles = [];
+      var vehicle = [];
       $('.involved-div :checked').each(function () {
-        vehicles.push($(this).val());
+        vehicle.push($(this).val());
       });
-      vehicles = vehicles.join(",");
+      vehicle = vehicle.join(",");
+      description = $('#description').val();
       lat = newLat;
       lng = newLng;
-      data = {"accident" : {"time" : datetime, "severity" : severity, "vehicle" : vehicles, "lat" : lat, "lng" : lng}};
+      data = {"accident" : {"time" : datetime, "severity" : severity, "vehicle" : vehicle, "description" : description, "lat" : lat, "lng" : lng}};
       console.log("data = " + data);
 
-      if (time && date && severity && (vehicles != []) && lat && lng) {
+      if (time && date && severity && (vehicle != []) && lat && lng) {
 
 
         $.ajax({
@@ -413,19 +425,19 @@ $(document).ready(function(){
     value : 15,
     color : "#2ecc71"
   },
-    {
+  {
     value : 15,
     color : "#9b59b6"
   },
-    {
+  {
     value : 15,
     color : "#34495e"
   },
-    {
+  {
     value : 15,
     color : "#ecf0f1"
   },
-    {
+  {
     value : 15,
     color : "#1abc9c"
   }
