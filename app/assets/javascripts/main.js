@@ -302,9 +302,10 @@ $(document).ready(function(){
         vehicles.push($(this).val());
       });
       vehicles = vehicles.join(",");
+      description = $('#description').val();
       lat = newLat;
       lng = newLng;
-      data = {"accident" : {"time" : datetime, "severity" : severity, "vehicle" : vehicles, "lat" : lat, "lng" : lng}};
+      data = {"accident" : {"time" : datetime, "severity" : severity, "vehicle" : vehicles, "description" : description, "lat" : lat, "lng" : lng}};
       console.log("data = " + data);
 
       if (time && date && severity && (vehicles != []) && lat && lng) {
