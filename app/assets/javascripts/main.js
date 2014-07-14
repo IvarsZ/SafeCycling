@@ -101,6 +101,16 @@ function updateStats(response) {
   doughnutData[6].value = (100.0 * taxiC)/totalC;
   doughnutData[7].value = (100.0 * bicycleC)/totalC;
 
+  // For showing accidents per each hour, [0] is 00.00 i.e 12am.
+  var timeCounts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+  var i = 0, len = response.length;
+
+  for ( ; i < len ; i++ ) {
+    var h = new Date(response[i].time).getHours();
+    timeCounts[h]++;
+  }
+  console.log(timeCounts);
 }
 
 function getAllAccidents() {  
