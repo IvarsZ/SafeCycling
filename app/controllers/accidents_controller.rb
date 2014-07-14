@@ -2,7 +2,7 @@ class AccidentsController < ApplicationController
 
   def index
     if (@ip = Ip.find_by_ip(request.env['REMOTE_ADDR'])).nil?
-      Ip.create(ip: request.env['REMOTE_ADDR'], times_visited: 1, accidents_submitted: 0)
+      Ip.create(ip: get_ip, times_visited: 1, accidents_submitted: 0)
     else
       puts @ip.inspect
       @ip.times_visited += 1  
@@ -14,7 +14,7 @@ class AccidentsController < ApplicationController
     respond_to do |format|
     
       # Limit submissions per hour 
-      @ip = Ip.find(request.env['REMOTE_ADDR'])
+      @ip = Ip.find(get_ip)
       
       if @ip.hourly_accidents_timer.nil?
         @ip.hourly_accidents_timer = DateTime.now
@@ -58,5 +58,9 @@ class AccidentsController < ApplicationController
     
     def accident_params
       params.require(:accident).permit(:time, :severity, :vehicle, :lat, :lng)
+    end
+
+    def get_ip
+      request.env['HTTP_X_FORWARDED_FOR'] || request.remote_ip
     end
 end
