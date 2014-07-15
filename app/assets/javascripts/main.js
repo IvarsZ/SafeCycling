@@ -183,7 +183,7 @@ function getAllAccidents() {
         google.maps.event.addListener(marker, 'click', function() {
           console.log(this.position);
           $('.statsDiv').animate({
-            right: "-366px",
+            right: "-386px",
           });
           $('.statsDiv').css('background-color', 'rgba(46, 204, 113,0)');
           $('.detailDiv').animate({
@@ -191,11 +191,11 @@ function getAllAccidents() {
           });
           $('.detailDiv').css('background-color', 'rgba(46, 204, 113,0.92)');
           $('.submitDiv').animate({
-            right: "-366px"
+            right: "-386px"
           });
           $('.submitDiv').css('background-color', 'rgba(46, 204, 113,0)');
           $('.aboutDiv').animate({
-            right: "-366px"
+            right: "-386px"
           });
           $('.aboutDiv').css('background-color', 'rgba(46, 204, 113,0)');
           d = new Date(this.datetime);
@@ -317,14 +317,14 @@ $(document).ready(function(){
     var myDoughnut = new Chart(document.getElementById("donutcanvas").getContext("2d")).Doughnut(doughnutData);
 
     $('.submitDiv').animate({
-      right: "-366px"
+      right: "-386px"
     });
     $('.submitDiv').css('background-color', 'rgba(46, 204, 113,0)');
     $('.detailDiv').animate({
-      right: "-366px"
+      right: "-386px"
     });
     $('.aboutDiv').animate({
-      right: "-366px"
+      right: "-386px"
     });
     $('.detailDiv').css('background-color', 'rgba(46, 204, 113,0)');
     $('.aboutDiv').css('background-color', 'rgba(46, 204, 113,0)');
@@ -336,14 +336,14 @@ $(document).ready(function(){
     });
     $('.submitDiv').css('background-color', 'rgba(46, 204, 113,0.92)');
     $('.statsDiv').animate({
-      right: "-366px",
+      right: "-386px",
     });
     $('.statsDiv').css('background-color', 'rgba(46, 204, 113,0)');
     $('.detailDiv').animate({
-      right: "-366px"
+      right: "-386px"
     });
     $('.aboutDiv').animate({
-      right: "-366px"
+      right: "-386px"
     });
     $('.detailDiv').css('background-color', 'rgba(46, 204, 113,0)');
     $('.aboutDiv').css('background-color', 'rgba(46, 204, 113,0)');
@@ -355,14 +355,14 @@ $(document).ready(function(){
     });
     $('.aboutDiv').css('background-color', 'rgba(46, 204, 113,0.92)');
     $('.statsDiv').animate({
-      right: "-366px",
+      right: "-386px",
     });
     $('.statsDiv').css('background-color', 'rgba(46, 204, 113,0)');
     $('.detailDiv').animate({
-      right: "-366px"
+      right: "-386px"
     });
     $('.submitDiv').animate({
-      right: "-366px"
+      right: "-386px"
     });
     $('.detailDiv').css('background-color', 'rgba(46, 204, 113,0)');
     $('.submitDiv').css('background-color', 'rgba(46, 204, 113,0)');
@@ -397,22 +397,22 @@ $(document).ready(function(){
 $('.glyphicon-remove').click(function() {
 
     $('.statsDiv').animate({
-      right: "-366px"
+      right: "-386px"
     });
     setTimeout( function(){
       $('.statsDiv').css('background-color', 'rgba(46, 204, 113,0)');
     },500);
     $('.submitDiv').animate({
-      right: "-366px"
+      right: "-386px"
     });
     setTimeout( function(){
       $('.submitDiv').css('background-color', 'rgba(46, 204, 113,0)');
     },500);
     $('.detailDiv').animate({
-      right: "-366px"
+      right: "-386px"
     });
     $('.aboutDiv').animate({
-      right: "-366px"
+      right: "-386px"
     });
     setTimeout( function(){
       $('.detailDiv').css('background-color', 'rgba(46, 204, 113,0)');
