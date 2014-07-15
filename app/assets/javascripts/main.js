@@ -185,15 +185,15 @@ function getAllAccidents() {
           $('.detailDiv').animate({
             right: "0px"
           });
-          $('.aboutDiv').animate({
-            right: "0px"
-          });
           $('.detailDiv').css('background-color', 'rgba(46, 204, 113,0.92)');
-          $('.aboutDiv').css('background-color', 'rgba(46, 204, 113,0.92)');
           $('.submitDiv').animate({
             right: "-366px"
           });
           $('.submitDiv').css('background-color', 'rgba(46, 204, 113,0)');
+          $('.aboutDiv').animate({
+            right: "-366px"
+          });
+          $('.aboutDiv').css('background-color', 'rgba(46, 204, 113,0)');
           d = new Date(this.datetime);
           geocoder.geocode({'latLng': this.position}, function(results, status) {
             if (status == google.maps.GeocoderStatus.OK) {

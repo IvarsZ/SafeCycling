@@ -211,6 +211,11 @@ form label {
 	font-style: italic;
 }
 
+.aboutDescription {
+	color: #ecf0f1;
+	font-style: italic;
+}
+
 .aboutDiv {
 	position: absolute;
 	height: 100%;
