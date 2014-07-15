@@ -213,8 +213,12 @@ form label {
 
 .aboutDescription {
 	color: #ecf0f1;
-	font-style: italic;
 }
+
+.aboutDescription a {
+  color: #ecf0f1;
+}
+
 
 .aboutDiv {
 	position: absolute;
