@@ -183,7 +183,7 @@ function getAllAccidents() {
           });
           $('.statsDiv').css('background-color', 'rgba(46, 204, 113,0)');
           $('.detailDiv').animate({
-            right: "0px"
+            right: "-20px"
           });
           $('.detailDiv').css('background-color', 'rgba(46, 204, 113,0.92)');
           $('.submitDiv').animate({
@@ -307,7 +307,7 @@ $(document).ready(function(){
   $('.stats').click(function() {
 
     $('.statsDiv').animate({
-      right: "0px"
+      right: "-20px"
     });
     $('.statsDiv').css('background-color', 'rgba(46, 204, 113,0.92)');
     var myDoughnut = new Chart(document.getElementById("donutcanvas").getContext("2d")).Doughnut(doughnutData);
@@ -328,7 +328,7 @@ $(document).ready(function(){
 
   $('.submit').click(function() {
     $('.submitDiv').animate({
-      right: "0px"
+      right: "-20px"
     });
     $('.submitDiv').css('background-color', 'rgba(46, 204, 113,0.92)');
     $('.statsDiv').animate({
@@ -347,7 +347,7 @@ $(document).ready(function(){
 
   $('.about').click(function() {
     $('.aboutDiv').animate({
-      right: "0px"
+      right: "-20px"
     });
     $('.aboutDiv').css('background-color', 'rgba(46, 204, 113,0.92)');
     $('.statsDiv').animate({
