@@ -5,10 +5,14 @@
   var mPlace = false;
   var isPlaced = false;
 
+  if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    window.alert("This site isn't currently optimised for mobile devices. We're working on it as fast as we can. Please use a computer or tablet meanwhile.");
+  }
+
   function modifyUrl(urlPath){
-   window.history.pushState(null,"", urlPath);
- };
- modifyUrl("?#about");
+    window.history.pushState(null,"", urlPath);
+  };
+  modifyUrl("?#about");
 
  function initialize() {
   geocoder = new google.maps.Geocoder();

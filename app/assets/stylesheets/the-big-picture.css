@@ -231,6 +231,7 @@ form label {
 	box-shadow: 1px 1px 15px #000000;
 	padding-left: 20px;
   padding-right: 15px;
+  overflow: auto; 
 }
 
 .aboutDiv h5 {
