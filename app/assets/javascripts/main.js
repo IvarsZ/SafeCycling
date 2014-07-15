@@ -185,7 +185,11 @@ function getAllAccidents() {
           $('.detailDiv').animate({
             right: "0px"
           });
+          $('.aboutDiv').animate({
+            right: "0px"
+          });
           $('.detailDiv').css('background-color', 'rgba(46, 204, 113,0.92)');
+          $('.aboutDiv').css('background-color', 'rgba(46, 204, 113,0.92)');
           $('.submitDiv').animate({
             right: "-366px"
           });
@@ -318,7 +322,11 @@ $(document).ready(function(){
     $('.detailDiv').animate({
       right: "-366px"
     });
+    $('.aboutDiv').animate({
+      right: "-366px"
+    });
     $('.detailDiv').css('background-color', 'rgba(46, 204, 113,0)');
+    $('.aboutDiv').css('background-color', 'rgba(46, 204, 113,0)');
   });
 
   $('.submit').click(function() {
@@ -333,7 +341,30 @@ $(document).ready(function(){
     $('.detailDiv').animate({
       right: "-366px"
     });
+    $('.aboutDiv').animate({
+      right: "-366px"
+    });
     $('.detailDiv').css('background-color', 'rgba(46, 204, 113,0)');
+    $('.aboutDiv').css('background-color', 'rgba(46, 204, 113,0)');
+  });
+
+  $('.about').click(function() {
+    $('.aboutDiv').animate({
+      right: "0px"
+    });
+    $('.aboutDiv').css('background-color', 'rgba(46, 204, 113,0.92)');
+    $('.statsDiv').animate({
+      right: "-366px",
+    });
+    $('.statsDiv').css('background-color', 'rgba(46, 204, 113,0)');
+    $('.detailDiv').animate({
+      right: "-366px"
+    });
+    $('.submitDiv').animate({
+      right: "-366px"
+    });
+    $('.detailDiv').css('background-color', 'rgba(46, 204, 113,0)');
+    $('.submitDiv').css('background-color', 'rgba(46, 204, 113,0)');
   });
 
   $('.btn-minor').click(function() {
@@ -379,8 +410,12 @@ $('.glyphicon-remove').click(function() {
     $('.detailDiv').animate({
       right: "-366px"
     });
+    $('.aboutDiv').animate({
+      right: "-366px"
+    });
     setTimeout( function(){
       $('.detailDiv').css('background-color', 'rgba(46, 204, 113,0)');
+      $('.aboutDiv').css('background-color', 'rgba(46, 204, 113,0)');
     },500);
 
   });
