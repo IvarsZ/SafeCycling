@@ -213,6 +213,7 @@ form label {
 
 .aboutDescription {
 	color: #ecf0f1;
+  font-size: 13px;
 }
 
 .aboutDescription a {
@@ -229,6 +230,7 @@ form label {
 	background-color: rgba(46, 204, 113,0);
 	box-shadow: 1px 1px 15px #000000;
 	padding-left: 20px;
+  padding-right: 15px;
 }
 
 .aboutDiv h5 {
