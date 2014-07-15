@@ -290,16 +290,13 @@ function changeOpacity() {
 }
 
 function loadMapScript() {
-  console.log("LOADING MAP SCRIPT");
   var script = document.createElement('script');
   script.type = 'text/javascript'
   script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=visualization&callback=loadClusterScript';
   document.body.appendChild(script);
 }
 function loadClusterScript() {
-  console.log("LOADING CLUSTER SCRIPT");
   $.getScript('http://google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.0.1/src/markerclusterer.js', function(){
-    console.log("cluster script is loaded");
     getAllAccidents();
   });
 }
@@ -448,7 +445,6 @@ $('.glyphicon-remove').click(function() {
       lat = newLat;
       lng = newLng;
       data = {"accident" : {"time" : datetime, "severity" : severity, "vehicle" : vehicle, "description" : description, "lat" : lat, "lng" : lng}};
-      console.log("data = " + data);
 
       if (time && date && severity && (vehicle != []) && lat && lng) {
 
@@ -458,10 +454,8 @@ $('.glyphicon-remove').click(function() {
           type : "POST",
           data : data,
           success : function(response){
-            console.log("Success! Response = " + response);
           },
           error: function(err){
-            console.log("Something went wrong. Err = " + err);
           }
         });
         $(".btn-place").html('<i class="fa fa-map-marker"></i> Place Marker').button('refresh');
