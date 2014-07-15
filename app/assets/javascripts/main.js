@@ -242,7 +242,7 @@ function getAllAccidents() {
           if (this.vehicle.match("bicycle")){
             $('.detail-involved-div').append('<button type="button" class="btn btn-default" style="background-color: #1abc9c; color: white">Bicycle</button>');
           }
-          $('.detailDescription').html(this.description);
+          $('.detailDescription').text(this.description);
     });
   markers.push(marker);      
 };

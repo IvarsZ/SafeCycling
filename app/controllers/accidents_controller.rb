@@ -50,7 +50,7 @@ class AccidentsController < ApplicationController
 
   def all_accidents
     respond_to do |format|
-      format.json {render json: Accident.all.to_json }
+      format.json {render json: Accident.all }
     end
   end
 
