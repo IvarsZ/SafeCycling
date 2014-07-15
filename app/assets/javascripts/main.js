@@ -6,7 +6,7 @@
   var isPlaced = false;
 
   if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-    window.alert("This site isn't currently optimised for mobile devices. We're working on it as fast as we can. We recommend using a computer or tablet for now.");
+    window.alert("This site isn't currently optimised for mobile devices. We're working on it as fast as we can. We recommend using a computer for now.");
   }
 
   function modifyUrl(urlPath){
@@ -187,7 +187,7 @@ function getAllAccidents() {
           });
           $('.statsDiv').css('background-color', 'rgba(46, 204, 113,0)');
           $('.detailDiv').animate({
-            right: "-20px"
+            right: "0px"
           });
           $('.detailDiv').css('background-color', 'rgba(46, 204, 113,0.92)');
           $('.submitDiv').animate({
@@ -311,7 +311,7 @@ $(document).ready(function(){
   $('.stats').click(function() {
 
     $('.statsDiv').animate({
-      right: "-20px"
+      right: "0px"
     });
     $('.statsDiv').css('background-color', 'rgba(46, 204, 113,0.92)');
     var myDoughnut = new Chart(document.getElementById("donutcanvas").getContext("2d")).Doughnut(doughnutData);
@@ -332,7 +332,7 @@ $(document).ready(function(){
 
   $('.submit').click(function() {
     $('.submitDiv').animate({
-      right: "-20px"
+      right: "0px"
     });
     $('.submitDiv').css('background-color', 'rgba(46, 204, 113,0.92)');
     $('.statsDiv').animate({
@@ -351,7 +351,7 @@ $(document).ready(function(){
 
   $('.about').click(function() {
     $('.aboutDiv').animate({
-      right: "-20px"
+      right: "0px"
     });
     $('.aboutDiv').css('background-color', 'rgba(46, 204, 113,0.92)');
     $('.statsDiv').animate({
