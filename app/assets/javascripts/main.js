@@ -6,7 +6,7 @@
   var isPlaced = false;
 
   if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-    window.alert("This site isn't currently optimised for mobile devices. We're working on it as fast as we can. Please use a computer or tablet meanwhile.");
+    window.alert("This site isn't currently optimised for mobile devices. We're working on it as fast as we can. We recommend using a computer or tablet for now.");
   }
 
   function modifyUrl(urlPath){
