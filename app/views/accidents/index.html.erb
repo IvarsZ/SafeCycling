@@ -2,8 +2,7 @@
 <html class="full" lang="en">
 <!-- The full page image background will only work if the html has the custom class set to it! Don't delete it! -->
 
-<head>
-
+<% content_for :head do -%>
   <meta charset="utf-8">
   <meta name="description" content="">
   <meta name="author" content="">
@@ -29,7 +28,7 @@
   </script>
   
   <%= favicon_link_tag 'favicon.ico' %>
-</head>
+<% end -%>
 
 <body>
 
